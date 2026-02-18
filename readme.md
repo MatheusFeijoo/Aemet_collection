@@ -1,4 +1,3 @@
-```markdown
 # AEMET Climate Data Collector
 
 A two-step Python pipeline to fetch and store historical daily climate data from all Spanish weather stations via the [AEMET OpenData API](https://opendata.aemet.es).
