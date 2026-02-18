@@ -9,16 +9,6 @@ The pipeline consists of two scripts that must be run in order:
 1. **`01_aemet_fetch_station_inventory.py`** — Downloads the full AEMET station inventory and saves it as a local CSV/JSON file.
 2. **`02_aemet_climate_from_csv.py`** — Reads that station inventory and fetches historical daily climate records for one province, a list of provinces, or all 52 Spanish provinces.
 
----
-
-## Requirements
-
-- Python 3.8+
-- `requests`
-- `urllib3`
-
----
-
 ## Setup
 
 ### 1. Get an AEMET API Key
@@ -29,15 +19,10 @@ Register at [AEMET OpenData](https://opendata.aemet.es/centrodedescargas/inicio)
 
 Create a file named `aemet_api_key.txt` in the project root and paste your key inside:
 
----
 
 ## Usage
 
-### Step 1 — Fetch Station Inventory
-
-```bash
-python 01_aemet_fetch_station_inventory.py
-```
+### Step 1 — Fetch Station Inventory (01_aemet_fetch_station_inventory.py)
 
 This script:
 - Calls the AEMET inventory endpoint for all stations in Spain.
@@ -49,13 +34,7 @@ This script:
 
 **CSV columns:** `station_id`, `station_name`, `province_code`, `province_name`, `latitude`, `longitude`, `altitude`
 
----
-
-### Step 2 — Fetch Climate Data
-
-```bash
-python 02_aemet_climate_from_csv.py
-```
+### Step 2 — Fetch Climate Data (02_aemet_climate_from_csv.py)
 
 Edit the configuration block in `main()` before running:
 
@@ -87,8 +66,6 @@ The script automatically:
 - `aemet_climate_<code>_<province>_<timestamp>.csv`
 - `aemet_climate_<code>_<province>_<timestamp>.json`
 
----
-
 ## Output Schema
 
 Each climate record contains the following fields:
@@ -113,8 +90,6 @@ Each climate record contains the following fields:
 
 > European decimal commas returned by the API (e.g. `"12,4"`) are automatically converted to floats. Missing or `"Nulo"` values are stored as `null` / empty.
 
----
-
 ## Province Reference
 
 | Code | Province | Code | Province |
@@ -132,16 +107,12 @@ Each climate record contains the following fields:
 
 Full list of all 52 province codes is embedded in both scripts.
 
----
-
 ## Notes
 
 - The AEMET OpenData API is **free** but rate-limited. For a full national collection (`"ALL"`) expect several hours of runtime.
 - The API uses a two-step redirect pattern: a first call returns a signed S3 URL, and a second call downloads the actual data.
 - Requests are retried automatically up to 3 times with exponential backoff on transient errors (429, 500–504).
 - All text files are written in **UTF-8** to correctly handle Spanish characters.
-
----
 
 ## License
 
